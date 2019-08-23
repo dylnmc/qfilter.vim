@@ -118,6 +118,43 @@ function! qfilter#keep_all(m) abort
 endfunction
 
 
+" File jump
+" ~~~~~~~~~
+
+" jump to next filename
+function! qfilter#filejump(forward) abort
+	if !a:forward
+		let l:index = line('$') - line('.')
+		let l:list = reverse(map(s:xgetlist(), { i,line -> extend(line, { 'index':i }) }))[l:index:]
+	else
+		let l:index = line('.') - 1
+		let l:list = map(s:xgetlist(), { i,line -> extend(line, { 'index':i }) })[l:index:]
+	endif
+	let l:bufnr = l:list[0].bufnr
+	let l:index = -1
+	while !empty(l:list)
+		let l:line = remove(l:list, 0)
+		if l:line.valid && l:line.bufnr !=# l:bufnr
+			let l:index = l:line.index
+			break
+		endif
+	endwhile
+	if l:index ==# -1
+		return
+	endif
+	if !a:forward
+		let l:bufnr = l:line.bufnr
+		for l:line in l:list
+			if !l:line.valid || l:line.bufnr !=# l:bufnr
+				break
+			endif
+			let l:index = l:line.index
+		endfor
+	endif
+	call setpos('.', [bufnr(''), l:index+1, 1, 0, 1])
+endfunction
+
+
 " Clean up
 " ~~~~~~~~
 
@@ -134,5 +171,7 @@ function! qfilter#cleanup()
 	silent! nunmap <buffer> d
 	silent! xunmap <buffer> d
 	silent! nunmap <buffer> dd
+	silent! nunmap {
+	silent! nunmap }
 endfunction
 

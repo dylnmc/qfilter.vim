@@ -28,6 +28,10 @@ if !get(b:, 'no_plugin_maps')
 	xnoremap <buffer> <silent> d :<c-u>call qfilter#delete(visualmode())<cr>
 	nmap <buffer> dd Vd
 
+	" jump to next/prev filenames
+	nnoremap <buffer> <silent> } :call qfilter#filejump(1)<cr>
+	nnoremap <buffer> <silent> { :call qfilter#filejump(0)<cr>
+
 	" let cleanup function know that maps added
 	let b:did_add_maps = 1
 endif
