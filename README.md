@@ -9,8 +9,8 @@ For help understanding what quickfix is, refer to `:help quickfix` in vim. It
 will suffice to say that the quickfix list is very useful if you are familiar
 with the `:make` and `:grep` commands. As a small example, if you run `:grep!
 "foo" someFile`, then you can use `:copen` to open the quickfix list and see the
-results. Each line contains Pressing `<Return>` on any entry will jump to that
-file on the particular line and column in a separate window.
+results. Pressing `<Return>` on any entry will jump to that file on the
+particular line and column in a separate window.
 
 This plugin uses `ftplugin` to create a few commands and mappings for the
 quickfix and location lists--both commonly referred to as a qf list--to help
